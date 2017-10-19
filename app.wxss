@@ -1,0 +1,37 @@
+page{
+  height: 100%;
+  background-color: #f4f4f4;
+  font-family: -apple-system-font,Helvetica Neue,Helvetica,sans-serif;
+}
+.container{
+  display: flex;
+  flex-direction: column;
+}
+
+.list-spacing{
+  margin-bottom: 20px;
+}
+
+.list-to-top{
+  margin-top: 20px;
+}
+
+.navigator-arrow {
+  padding-right: 30rpx;
+  position: absolute;
+}
+.navigator-arrow:after {
+  content: " ";
+  display: inline-block;
+  height: 18rpx;
+  width: 18rpx;
+  border-width: 2rpx 2rpx 0 0;
+  border-color: #888888;
+  border-style: solid;
+  transform: matrix(0.71, 0.71, -0.71, 0.71, 0, 0);
+  position: absolute;
+  top: 50%;
+  margin-top: -8rpx;
+  right: 28rpx;
+}
+
