@@ -1,4 +1,4 @@
-// pages/ucenter/feedback/feedback.js
+// pages/ucenter/kefu/kefu.js
 Page({
 
   /**

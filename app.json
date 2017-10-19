@@ -7,7 +7,7 @@
     "pages/ucenter/ucenter",
     "pages/ucenter/order/order",
     "pages/ucenter/address/address",
-    "pages/ucenter/feedback/feedback"
+    "pages/ucenter/kefu/kefu"
   ],
 
   "window": {

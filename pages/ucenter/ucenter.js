@@ -9,9 +9,9 @@ Page({
       img: "../../image/address.png",
       text: "收获地址"
     }, {
-      url: "feedback",
-      img: "../../image/feedback.png",
-      text: "反馈意见"
+      url: "kefu",
+      img: "../../image/kefu.png",
+      text: "联系客服"
     }]
   }
 })
