@@ -1,0 +1,35 @@
+<template name="cartItem">
+  <view class="products-item-box" wx:for="{{cartProducts}}">
+    <view class="item-view-select" bindtap="onItemSelectTap" 
+    data-index="{{index}}">
+      <image class="icon-select" src="{{item.selectStatus?'/image/icon/circle@selected.png':'/image/icon/circle@noselected.png'}}"></image>
+    </view>
+    <view class="item-product">
+      <image class="item-img" src="{{item.img_url}}" mode="aspectFit" bindtap="onProductTap"></image>
+      <view class="item-box">
+        <view class="item-info-box" bindtap="onProductTap">
+          <view>{{item.name}}</view>
+          <view>{{item.price}}</view>
+        </view>
+        <view class="item-edit-box">
+          <view class="item-edit-qty">
+            <view class="item-btn-qty {{item.qty>1?'':'disabled'}}" 
+            bindtap="onChangeQtyTap" data-index="{{index}}" data-type="subtract">
+            -
+            </view>
+            <view class="">{{item.qty}}</view>
+            <view class="item-btn-qty {{item.qty<item.stock?'':'disabled'}}"
+             bindtap="onChangeQtyTap" data-index="{{index}}" data-type="add">
+             +
+            </view>
+          </view>
+          <view class="item-btn-delete" bindtap="onItemDeleteTap" 
+          data-index="{{index}}">
+            ×
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+</template>

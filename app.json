@@ -1,38 +1,40 @@
 {
-  "pages": [  
-    "pages/index/index",
-
-    "pages/cart/cart",
-
-    "pages/ucenter/ucenter",
-    "pages/ucenter/order/order",
-    "pages/ucenter/address/address",
-    "pages/ucenter/kefu/kefu"
+  "pages": [
+    "page/index/index",
+    "page/product/product",    
+    "page/cart/cart",
+    "page/ucenter/ucenter"
   ],
 
   "window": {
-    "navigationBarBackgroundColor": "#ffffff",
-    "navigationBarTextStyle": "black",
+    "navigationBarBackgroundColor": "#ACA078",
+    "navigationBarTextStyle": "white",
     "backgroundColor": "#eeeeee",
     "backgroundTextStyle": "light"
   },
 
   "tabBar": {
-    "list": [{
-      "pagePath": "pages/index/index",
-      "iconPath": "image/ic_menu_choice_nor.png",
-      "selectedIconPath": "image/ic_menu_choice_pressed.png",
-      "text": "首页"
-    }, {
-      "pagePath": "pages/cart/cart",
-      "iconPath": "image/ic_menu_shoping_nor.png",
-      "selectedIconPath": "image/ic_menu_shoping_pressed.png",
-      "text": "购物车"
-    }, {
-      "pagePath": "pages/ucenter/ucenter",
-      "iconPath": "image/ic_menu_me_nor.png",
-      "selectedIconPath": "image/ic_menu_me_pressed.png",
-      "text": "我的"
-    }]
+    "borderStyle": "white",
+    "selectedColor": "#B4282D",
+    "list": [
+      {
+        "pagePath": "page/index/index",
+        "iconPath": "image/tabbar/ic_menu_choice_nor.png",
+        "selectedIconPath": "image/tabbar/ic_menu_choice_pressed.png",
+        "text": "首页"
+      },
+      {
+        "pagePath": "page/cart/cart",
+        "iconPath": "image/tabbar/ic_menu_shoping_nor.png",
+        "selectedIconPath": "image/tabbar/ic_menu_shoping_pressed.png",
+        "text": "购物车"
+      },
+      {
+        "pagePath": "page/ucenter/ucenter",
+        "iconPath": "image/tabbar/ic_menu_me_nor.png",
+        "selectedIconPath": "image/tabbar/ic_menu_me_pressed.png",
+        "text": "我的"
+      }
+    ]
   }
 }

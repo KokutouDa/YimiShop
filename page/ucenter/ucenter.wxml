@@ -1,0 +1,22 @@
+<view class="container">
+  <view class="user-icon-background" bindtap='getToken'>
+    <icon type='success' size='70' color='green'></icon>
+    <!--todo 之后改成image-->
+    <text class='user-text' >hello</text>
+  </view>
+ 
+  <view wx:for="{{list}}">
+  <navigator  url='/pages/ucenter/{{item.url}}/{{item.url}}'>
+    <view class='user-menu'>
+      <image class='user-menu-icon' src='{{item.img}}'></image>
+      <text class='user-menu-text'>{{item.text}}</text>
+      <view class='navigator-arrow user-menu-arrow'></view>
+    </view>
+  </navigator>
+  </view>
+  <view>
+    <image class="icon order"></image>
+  </view>
+</view>
+
+<!--导航1q-->

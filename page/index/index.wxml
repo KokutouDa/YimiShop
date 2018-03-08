@@ -1,0 +1,21 @@
+<!-- index.wxml-->
+<import src="../tpl/product/product-tpl.wxml"/>
+
+<view class="container">
+
+  <swiper autoplay="true" indicator-dots="true" class="swiper">
+    <block wx:for="{{bannerArray}}" >
+      <swiper-item bindtap="onProductTap" data-id="{{item.product_id}}" class="banner-item">
+        <image src="{{item.image.url}}"  mode="aspectFill" class="item-img" />
+      </swiper-item>
+    </block> 
+  </swiper>  
+  
+  <text class="title">最近新品</text>
+
+   <template is="products" data="{{products}}"/> 
+</view>
+
+  <!-- <button type="primary" style="margin-bottom:20px;margin-top:30px" bindtap="getToken">申请令牌</button>
+<button type="warn" bindtap="pay" style="margin-bottom:20px;margin-top:30px">支付</button>  
+<button type='primary' style="margin-bottom:20px;margin-top:30px" bindtap='getOrders'>历史订单</button> -->

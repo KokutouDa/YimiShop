@@ -1,0 +1,140 @@
+/* product.wxss */
+
+.fixed-cart-box {
+  width: 60rpx;
+  height: 60rpx;
+  position: absolute;
+  top: 3%;
+  right: 3%;
+}
+
+.fixed-cart-icon {
+  width: 60rpx;
+  height: 60rpx;
+}
+
+.detail-header-box, .detail-footer-box {
+  background-color: white;
+}
+
+.product-img {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.cart-box {
+  margin: 30rpx auto; 
+  display: flex;
+  width: 660rpx;
+  height: 100rpx;
+  border-radius: 100rpx;
+  color: white;
+  background-color: #AB956D;
+  align-items: center; 
+  justify-content: center;
+}
+
+.product-picker {
+  width: 50%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.product-qty, .product-cart {
+  display: flex;
+  height: 100%;
+  align-items: center; 
+  justify-content: center;
+  font-size: 24rpx;
+}
+
+.qty-tips, .qty-data, .qty-icon {
+  margin: 0 20rpx;
+}
+.qty-data {
+   font-size: 28rpx; 
+}
+.qty-icon {
+  width: 48rpx;
+  height: 48rpx;
+}
+
+.division {
+  width: 2rpx;
+  height: 30rpx;
+  border-right: 1rpx #fff dotted;
+}
+
+.product-cart {
+  position: relative;
+  flex: 1;
+}
+
+.cart-icon {
+  width: 32rpx;
+  height: 32rpx;
+  margin-left: 40rpx; 
+}
+
+.disabled {
+  color: #D5D5DB;
+}
+
+.info-box {
+  padding: 15rpx 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 50rpx;
+  color: #454552;
+}
+
+.info-box>text {
+  margin: 20rpx auto;
+}
+
+.info-stock {
+  font-size: 24rpx;
+}
+
+.info-stock.no-stock {
+  color: #B42D2D
+}
+
+.info-name {
+  font-size: 40rpx;
+}
+
+.info-price {
+  font-size: 38rpx;
+}
+
+.tab-box {
+  display: flex;  
+  width: 100%;
+  height: 100rpx;
+  background-color: white;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.tab-item {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.tab-item.selected {
+  color: rgba(171,149,109,.8);  
+  box-shadow: 0 5rpx 0 rgba(171,149,109,.8);
+}
+
+.detail-box {
+  padding-bottom: 20rpx;
+}
