@@ -1,41 +1,26 @@
+import { Order } from '../order/order-model.js';
+import { Ucenter } from './ucenter-model.js';
+
+var order = new Order();
+var ucenter = new Ucenter();
+
 Page({
-  data: {
-    list: [{
-      url: "order",
-      img: "../../image/order.png",
-      text: "我的订单"
-    }, {
-      url: "address",
-      img: "../../image/address.png",
-      text: "收获地址"
-    }, {
-      url: "kefu",
-      img: "../../image/kefu.png",
-      text: "联系客服"
-    }]
+  
+  onLoad: function(event) {
+    this._loadData();
   },
 
-  getToken: function () {
-    //调用登录接口
-    wx.login({
-      success: function (res) {
-        console.log('code');
-        console.log(res.code);
-        wx.request({
-          url: "http://yimi.com/api/v1/user/token",
-          data: {
-            code: res.code
-          },
-          method: 'POST', // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT
-          success: function (res) {
-            console.log(res.data);
-            wx.setStorageSync('token', res.data.token);
-          },
-          fail: function (res) {
-            console.log(res.data);
-          }
-        })
-      }
+  _loadData() {
+    ucenter.getUserInfo(data => {
+      this.setData({
+        "userInfo": data
+      });
+    });
+  },
+
+  onOrderTap: function(event) {
+    wx.navigateTo({
+      url: '/page/ucenter/order-list/order-list',
     })
   }
 })

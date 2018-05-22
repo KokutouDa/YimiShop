@@ -1,11 +1,21 @@
-<view class="container">
-  <view class="user-icon-background" bindtap='getToken'>
-    <icon type='success' size='70' color='green'></icon>
-    <!--todo 之后改成image-->
-    <text class='user-text' >hello</text>
+<view class="ucenter-container">
+  <view class="user-info-box">
+    <image class="user-info-img" src='{{userInfo.avatarUrl}}'></image>
+    <text>{{userInfo.nickName}}</text>
+  </view>
+
+  <view class="list-box">
+      <view class="list-my-order" bindtap='onOrderTap'>
+        <view>我的订单</view>
+        <view class="list-my-order">
+          <view class="list-all-order">查看全部订单</view>
+          <image class="icon-arrow" src="/image/icon/arrow@right.png"></image>
+        </view>
+      </view>
+      <view></view>
   </view>
  
-  <view wx:for="{{list}}">
+  <!-- <view wx:for="{{list}}">
   <navigator  url='/pages/ucenter/{{item.url}}/{{item.url}}'>
     <view class='user-menu'>
       <image class='user-menu-icon' src='{{item.img}}'></image>
@@ -16,7 +26,7 @@
   </view>
   <view>
     <image class="icon order"></image>
-  </view>
+  </view> -->
 </view>
 
 <!--导航1q-->

@@ -1,6 +1,8 @@
 import {Index} from 'index-model.js'
+import { Cart } from '../cart/cart-model.js';
 
 var index = new Index();
+var cart = new Cart();
 
 Page({
 
@@ -8,7 +10,6 @@ Page({
    * 页面的初始数据
    */
   data: {
-    
   },
 
   /**
@@ -18,142 +19,76 @@ Page({
     this._loadData();
   },
 
-
-  onProductTap: function(event) {
-    var id = index.getDataSet(event, "id");
-    wx.navigateTo({
-      url: '../product/product?id=' + id,
-    })
-  },
-
   _loadData: function() {
-    index.getBannerData(1, (data) => {
-      console.log(data);
+    index.getCategory((data) => {
       this.setData({
-        "bannerArray": data
-      });
+        "category": data,
+        "currentID": data[0].id
+      })
     });
-    
-    //todo 学习模版
-    index.getRecentProducts((data) => {
-      this.setData({
-        "products": data
-      });
-      console.log(data);
-    });
+
+    var length = {};
+    // length["11"] = "aaa";
+    // length["12"] = "bbb";
+    length['11'] = 'aaa';
+    length['22'] = 'bbb';
+    console.log(length);
   },
+
+  onCategoryTap: function(event) {
+    var id = index.getDataSet(event, 'id');
+    if (id != this.data.currentID) {
+      this.setData({
+        "currentID": id
+      });
+      index.getProductsByCategory(id, (data) => {
+        console.log(data);
+        this.setData({
+          "products": data
+        })
+      });
+    }
+  },
+
+  onChangeQtyTap: function(event) {
+    var type = index.getDataSet(event, 'type');
+    var ind = index.getDataSet(event, 'index');
+    var products = this.data.products;
+    var product = products[ind];
+    if (type == cart.flatAdd) {
+      var product = cart.add(product, 1);
+      products[ind] = product;
+      console.log(product);
+    } else {
+      var product = cart.add(product, -1);
+      products[ind] = product;
+    }
+    this.setData({
+      "products": products
+    })
+  }
+
+
+//   onProductTap: function(event) {
+//     var id = index.getDataSet(event, "id");
+//     wx.navigateTo({
+//       url: '../product/product?id=' + id,
+//     })
+//   },
+
+//   _loadData: function() {
+//     index.getBannerData(1, (data) => {
+//       console.log(data);
+//       this.setData({
+//         "bannerArray": data
+//       });
+//     });
+    
+//     index.getRecentProducts((data) => {
+//       this.setData({
+//         "products": data
+//       });
+//       console.log(data);
+//     });
+//   },
 });
-
-// var baseUrl = 'http://yimi.com/api/v1';
-// Page({
-//   onLoad: function () {
-//   },
-
-
-//   getToken: function () {
-//     //调用登录接口
-//     wx.login({
-//       success: function (res) {
-//         var code = res.code;
-//         console.log('code');
-//         console.log(code);
-//         wx.request({
-//           url: baseUrl + '/user/token',
-//           data: {
-//             code: code
-//           },
-//           method: 'POST', // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT
-//           success: function (res) {
-//             console.log(res.data);
-//             wx.setStorageSync('token', res.data.token);
-//           },
-//           fail: function (res) {
-//             console.log(res.data);
-//           }
-//         })
-//       }
-//     })
-//   },
-
-//   pay: function () {
-//     var token = wx.getStorageSync('token');
-//     var that = this;
-//     wx.request({
-//       url: baseUrl + '/order',
-//       header: {
-//         token: token
-//       },
-//       data: {
-//         products:
-//         [
-//           {
-//             product_id: 1, qty: 1
-//           },
-//           {
-//             product_id: 2, qty: 1
-//           }
-//         ]
-//       },
-//       method: 'POST',
-//       success: function (res) {
-//         console.log(res.data);
-//         if(res.data.pass) {
-//           var orderId = res.data.order_id;
-//           wx.setStorageSync('order_id', orderId)
-//           that.getPreOrder(token, orderId);
-//         } else {
-//           console.log("订单创建失败");
-//         }
-//       }
-//     })
-//   },
-
-//   getPreOrder: function (token, orderId) {
-//     if(token) {
-//       wx.request({
-//         url: baseUrl + '/pay/pre_order',
-//         header: {
-//           token: token
-//         },
-//         data: {
-//           id: orderId
-//         },
-//         method: 'POST',
-//         success: function (res) {
-//           var preData = res.data;
-//           console.log(preData);
-//           wx.requestPayment({
-//             timeStamp: preData.timeStamp,
-//             nonceStr: preData.nonceStr,
-//             package: preData.package,
-//             signType: preData.signType,
-//             paySign: preData.paySign,
-//             success: function(res) {
-//               console.log(res.data);
-//             },
-//             fail: function(error) {
-//               console.log(error);
-//             }
-//           })
-//         },
-//       }) 
-//     }
-//   },
-
-//   getOrders: function() {
-//     var token = wx.getStorageSync('token');
-
-//     wx.request({
-//       url: 'http://yimi.com/api/v1/order/by_user',
-//       header: {
-//         token: token
-//       },
-//       meethod: 'GET',
-//       success: function(res) {
-//         console.log(res.data);
-//       }
-
-
-//     })
-//   }
-// })

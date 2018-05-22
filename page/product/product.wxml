@@ -1,7 +1,10 @@
 <!--product.wxml-->
 
-<view class="fixed-cart-box">
-  <image class="fixed-cart-icon" src="/image/icon/cart@top.png"></image>
+<view class="fixed-btn-box" bindtap="onCartTap">
+  <view class="fixed-cart">
+    <image class="fixed-cart-icon" src="/image/icon/cart@top.png"></image>
+    <view class="fixed-red-dot" wx:if="{{cartProductCounts!= 0}}"></view>
+  </view>
 </view>
 
 <view>
@@ -10,7 +13,7 @@
       <image src="{{product.img_url}}" mode="aspectFit" />
     </view>
 
-    <view class="cart-box {{product.stock==0?'disabled':''}}">
+    <view class="cart-box main-background-color {{product.stock==0?'disabled':''}}">
       <picker class="product-picker" range="{{stockArr}}" 
       value="{{currentQtyIndex}}" bindchange="onPickerTap" 
       disabled="{{product.stock==0?true:false}}">
@@ -23,7 +26,7 @@
 
       <view class="division" />
 
-      <view class="product-cart" bindtap="{{product.stock>0?'onCartTap': ''}}">
+      <view class="product-cart" bindtap="onAddingToCartTap">
         <text>加入购物车</text>
         <image class="cart-icon" src="/image/icon/cart.png"></image>
       </view>

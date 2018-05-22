@@ -10,14 +10,14 @@ Page({
     currentQtyIndex: 0,
     currentTab: 0,
     detailText: ["商品详情", "产品参数", "售后保障"],
-    stockArr: []
+    stockArr: [],
+    cartProductCounts: 0
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    console.log(options);
     this._loadData(options);
   },
   _loadData: function(options) {
@@ -34,7 +34,8 @@ Page({
       }
       this.setData({
         "product": res,
-        "stockArr": stockArr
+        "stockArr": stockArr,
+        "cartProductCounts": cart.getCartDataFromLocal().length,
       })
     })
   },
@@ -53,9 +54,18 @@ Page({
   },
 
   onCartTap: function(event) {
+    wx.switchTab({
+      url: '../cart/cart',
+    })
+  },
+
+  onAddingToCartTap: function(event) {
     var product = this.parseCartData(this.data.product);
     var qty = this.data.stockArr[this.data.currentQtyIndex];
-    cart.add(product, qty);
+    var cartProduts = cart.add(product, qty);
+    this.setData({
+      "cartProductCounts": cartProduts.length
+    });
   },
 
   parseCartData(data) {

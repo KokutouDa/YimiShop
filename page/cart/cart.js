@@ -1,22 +1,28 @@
 import { Cart } from "./cart-model.js";
+import { Order } from "../order/order-model.js"
 var cart = new Cart();
+var order = new Order();
 
 Page({
 
   data: {
     cartProducts: [],
     isAllSelected: false,
-    hasOneSelected: false,
+    hasOneSelected: true,
     totalPrice: 0,
   },
 
   onLoad: function (options) {
-
+    
   },
 
   onShow: function (options) {
     var cartProducts = cart.getCartDataFromLocal();
     this._resetData(cartProducts);
+  },
+
+  onHide: function (options) {
+    cart.setCartData(this.data.cartProducts);
   },
 
   onShoppingTap: function () {
@@ -26,29 +32,33 @@ Page({
   },
 
   onProductTap: function (event) {
-    //todo 导航到指定商品
+    var id = cart.getDataSet(event, "id");
+    wx.navigateTo({
+      url: '../product/product?id=' + id,
+    })
   },
 
-  //todo 可以增加到model里。
-  onItemDeleteTap: function (event) {
-    var cartProducts = cart.deleteItem(event);
-    this.setData({
-      "cartProducts": cartProducts,
-      "totalPrice": cart.totalPrice(),
-    });
+  onDeleteTap: function (event) {
+    var index = cart.getDataSet(event, "index");
+    var id = this.data.cartProducts[index].id;
+    var cartProducts = cart.deleteById(id);
+    this._resetData(cartProducts);
   },
 
   onChangeQtyTap: function(event) {
-    var cartProducts = cart.changeQty(event);
+    var index = cart.getDataSet(event, "index");
+    var type = cart.getDataSet(event, "type");
+    var cartProducts = cart.changeQty(index, type);
     this.setData({
       "cartProducts": cartProducts,
-      "totalPrice": cart.totalPrice()
+      "totalPrice": cart.totalPrice(),
     });
 
   },
 
   onItemSelectTap: function (event) {
-    var cartProducts = cart.itemSelect(event);
+    var index = cart.getDataSet(event, "index");
+    var cartProducts = cart.itemSelect(index);
     this._resetData(cartProducts);
   },
 
@@ -58,15 +68,17 @@ Page({
   },
 
   onOrderingTap: function(event) {
-    console.log(event);
+    wx.navigateTo({
+      url: "../order/order?totalPrice=" + this.data.totalPrice + "&from=cart",
+    })
   },
 
   _resetData: function(cartProducts) {
     this.setData({
       "cartProducts": cartProducts,
-      "isAllSelected": cart.isAllSelected(),
-      "hasOneSelected": cart.hasOneSelected(),
-      "totalPrice": cart.totalPrice()
-    });
-  }
+      "isAllSelected": cart.isAllSelected(cartProducts),
+      "hasOneSelected": cart.hasOneSelected(cartProducts),
+      "totalPrice": cart.totalPrice(cartProducts)
+    })
+  },
 });

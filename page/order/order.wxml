@@ -1,0 +1,102 @@
+<view class="container order-container">
+  <view class="scrollview">
+    <view class="order-header" bindtap="{{orderStatus==0?'onAddressTap':''}}">
+      <view class="no-address-box" wx:if="{{!addressInfo}}">
+        <view class="icon-box">
+          <text>+</text>
+        </view>
+        <text>新增收货地址</text>
+      </view>
+      <view class="address-info-box" wx:else>
+        <view class="namephone-box">
+          <view class="name">
+            <text>收货人：</text>
+            <text>{{addressInfo.userName}}</text>
+          </view>
+          <view>{{addressInfo.telNumber}}</view>
+        </view>
+        <view class="address">
+          {{addressInfo.completeAddress}}
+        </view>
+      </view>
+      <image class="icon-arrow" src="/image/icon/arrow@right.png"></image>
+    </view>
+
+
+    <view class="main-products-box">
+      <view class="main-products-header">
+        <view>Yimi烘焙</view>
+        <view class="order-status">{{orderStatusArr[orderStatus]}}</view>
+      </view>
+      <block wx:for="{{orderProducts}}">
+        <view class="products-item-box">
+          <image src="{{item.img_url}}"></image>
+          <view class="products-item-info">
+            <view class="products-item-top">
+              <view>{{item.name}}</view>
+              <view>x{{item.qty}}</view>
+            </view>
+            <view>¥{{item.price}}</view>
+          </view>
+        </view>
+      </block>
+    </view>
+
+    <!--todo 图片和价格不能显示，snap_products里没有图片。方法一添加  -->
+    <view class="main-info-box">
+      <view wx:if="{{orderStatus!=0}}">
+        <view>
+          <view>订单编号：</view>
+          <text>{{orderNum}}</text>
+        </view>
+        <view>
+          <view>下单时间：</view>
+          <text>{{orderingTime}}</text>
+        </view>
+      </view>
+      <view>
+        <view>
+          <view>配送方式：</view>
+          <text>顺丰</text>
+        </view>
+      </view>
+
+      <view wx:if="{{orderStatus==0}}">
+        <view>
+          <view>留言：</view>
+          <input placeholder="点击此处留言" bindblur="bindMessage"></input>
+        </view>
+      </view>
+      <view wx:if="{{orderStatus!=0}}">
+        <view>
+          <view>留言：</view>
+          <view>无</view>
+        </view>
+      </view>
+      <view>
+        <view>
+          <view>商品合计：</view>
+          <text>{{productsPrice}}</text>
+        </view>
+        <view>
+          <view>运费：</view>
+          <text>¥{{freight}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+
+  <view class="order-footer base-footer-box" wx:if="{{orderStatus<2}}">
+    <view  class="footer-total-price">
+      <text>应付：</text>
+      <text>{{totalPrice}}</text>
+    </view>
+    <view wx:if="{{orderStatus==0}}" bindtap="onPayTap" class="footer-pay main-background-color {{!addressInfo?'disabled':''}}">提交订单</view>
+    <view wx:if="{{orderStatus==1}}" bindtap="onPayTap" 
+    class="footer-pay main-background-color">付款</view>
+  </view>
+  <view class="base-footer-box footer-" wx:if="{{orderStatus>=2}}">
+    
+  </view>
+</view>

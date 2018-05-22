@@ -1,4 +1,5 @@
-import {Config} from '../utils/config.js';
+import { Config } from '../utils/config.js';
+import { Token } from "../utils/token.js";
 
 class Base {
 
@@ -6,8 +7,10 @@ class Base {
     this.baseRequestUrl = Config.restUrl;
   }
 
-  request(params) {
-    if(!params.type) {
+  //noRefetch 防止重复的未授权重试机制
+  request(params, noRefetch) {
+    var that = this;
+    if (!params.type) {
       params.type = 'GET';
     }
     wx.request({
@@ -18,13 +21,32 @@ class Base {
         'content-type': 'application/json',
         'token': wx.getStorageSync('token')
       },
-      success: function(res) {
-        params.sCallback&&params.sCallback(res.data);
+      success: function (res) {
+        var statusCode = res.statusCode.toString();
+        var firstChar = statusCode.charAt(0);
+        if (firstChar == 2) {
+          params.sCallback && params.sCallback(res.data);
+        } else {
+          if (statusCode == '401' && !noRefetch) {
+            that.refetchToken(params);
+          }
+          if (noRefetch) {
+            eCallback && eCallback(res);
+          }
+        }
       },
-      fail: function(err) {
+      fail: function (err) {
         console.log(err);
       }
     })
+  }
+
+  refetchToken(params) {
+    var token = new Token();
+    var noRefetch = true;
+    token.getTokenFromServer(() => {
+      this.request(params, noRefetch);
+    });
   }
 
   getDataSet(event, key) {

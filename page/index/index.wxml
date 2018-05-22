@@ -1,21 +1,33 @@
 <!-- index.wxml-->
-<import src="../tpl/product/product-tpl.wxml"/>
 
-<view class="container">
+<view class=" container index-container">
 
-  <swiper autoplay="true" indicator-dots="true" class="swiper">
-    <block wx:for="{{bannerArray}}" >
-      <swiper-item bindtap="onProductTap" data-id="{{item.product_id}}" class="banner-item">
-        <image src="{{item.image.url}}"  mode="aspectFill" class="item-img" />
-      </swiper-item>
-    </block> 
-  </swiper>  
-  
-  <text class="title">最近新品</text>
+  <view class="left-box">
+    <block wx:for="{{category}}">
+      <view class="left-item {{currentID==item.id?'selected':''}}" data-id="{{item.id}}" bindtap='onCategoryTap'>{{item.name}}</view>
+    </block>
+  </view>
+  <view class="right-box">
+    <block wx:for="{{products}}">
+      <view class="right-item">
+        <image class="right-item-img" src="{{item.img_url}}"></image>
+        <view class="right-item-info">
+          <view>{{item.name}}</view>
+          <view class="right-item-bottom">
+            <view>{{item.price}}</view>
+            <view class="bottom-qty-box" >
+               <image class="qty-subtract {{item.qty>0?'visible':''}}" src="/image/icon/cut.png" 
+                 data-type='subtract' data-index='{{index}}' 
+                 bindtap="onChangeQtyTap"></image>
+               <view class="qty-text {{item.qty>0?'visible':''}}">{{item.qty}}</view> 
+               <image class="qty-add" src="/image/icon/add.png" 
+                 data-type='add' data-index='{{index}}' 
+                 bindtap="onChangeQtyTap"></image>
+            </view>
+          </view>
+        </view>
+      </view>
+    </block>
+  </view>
 
-   <template is="products" data="{{products}}"/> 
 </view>
-
-  <!-- <button type="primary" style="margin-bottom:20px;margin-top:30px" bindtap="getToken">申请令牌</button>
-<button type="warn" bindtap="pay" style="margin-bottom:20px;margin-top:30px">支付</button>  
-<button type='primary' style="margin-bottom:20px;margin-top:30px" bindtap='getOrders'>历史订单</button> -->

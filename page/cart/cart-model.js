@@ -8,11 +8,21 @@ class Cart extends Base {
     this.flatAdd = "add";
     this.flatSubtract = "subtract"
   }
-
-  getCartDataFromLocal() {
+  
+  //获取购物车产品数据，flag为true时获取选中的产品
+  getCartDataFromLocal(flag) {
     var products = wx.getStorageSync(this._storageKeyName);
     if (!products) {
       products = [];
+    }
+    if (flag) {
+      var selectedProducts = [];
+      for (var i = 0; i < products.length; i++) {
+        if (products[i].selectStatus) {
+          selectedProducts.push(products[i]);
+        }
+      }
+      products = selectedProducts;
     }
     return products;
   }
@@ -23,8 +33,8 @@ class Cart extends Base {
 
   //添加到购物车
   add(product, qty) {
+    // var qty = arguments[1] ? arguments[1] : 1;
     var products = this.getCartDataFromLocal();
-    var exist = false;
     var index = this.hasArrItem(product.id, "id", products);
     if (index == -1) {
       product.qty = qty;
@@ -32,9 +42,10 @@ class Cart extends Base {
       products.push(product);
     } else {
       products[index].qty += qty;
+      product.qty += qty;
     }
     this.setCartData(products);
-    return products;
+    return product;
   }
 
 
@@ -55,16 +66,36 @@ class Cart extends Base {
     return index;
   }
 
-  deleteItem(event) {
-    var index = this.getDataSet(event, "index");
-    var products = this.getCartDataFromLocal();
-    products.splice(index, 1);
-    this.setCartData(products);
-    return products;
+  deleteById(ids) {
+    var cartProducts = this.getCartDataFromLocal();
+    if (!(ids instanceof Array)) {
+      ids = [ids];
+    }
+    for (let i = 0; i < ids.length; i++) {
+      var index = this.hasProduct(ids[i], cartProducts);
+      if (index != -1) {
+        cartProducts.splice(index, 1);
+      }
+    }
+    this.setCartData(cartProducts);
+    return cartProducts;
   }
 
-  itemSelect(event) {
-    var index = this.getDataSet(event, "index");
+  /**
+   * 是否有指定 id 的 product
+   * 返回的是数组当前product的位置，如果不存在，返回-1
+   */
+  hasProduct(id, products) {
+    var index = -1;
+    for (let i = 0; i < products.length; i++) {
+      if (id == products[i].id) {
+        index = i;
+      }
+    }
+    return  index;
+  }
+
+  itemSelect(index) {
     var products = this.getCartDataFromLocal();
     products[index].selectStatus = !products[index].selectStatus;
     this.setCartData(products);
@@ -87,7 +118,6 @@ class Cart extends Base {
         return true;
       }
     }
-    this.setCartData(products);
     return false;
   }
 
@@ -99,14 +129,11 @@ class Cart extends Base {
         isAllSelected = false;
       }
     });
-    this.setCartData(products);
     return isAllSelected;
   }
 
-  changeQty(event) {
+  changeQty(index, type) {
     var products = this.getCartDataFromLocal();
-    var index = this.getDataSet(event, "index");
-    var type = this.getDataSet(event, "type");
     if (type == this.flatAdd) {
       if (products[index].qty < products[index].stock) {
         products[index].qty++;

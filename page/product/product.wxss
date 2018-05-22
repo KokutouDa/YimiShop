@@ -1,16 +1,25 @@
 /* product.wxss */
 
-.fixed-cart-box {
-  width: 60rpx;
-  height: 60rpx;
-  position: absolute;
-  top: 3%;
-  right: 3%;
+.fixed-btn-box {
+  position: fixed;
+  top:50rpx;
+  right:12px;
+  width: 80rpx
 }
 
-.fixed-cart-icon {
-  width: 60rpx;
-  height: 60rpx;
+.fixed-cart image {
+  height: 64rpx;
+  width: 64rpx;
+}
+
+.fixed-cart view {
+  background-color: rgb(254, 69, 67);
+  position: absolute;
+  right: 70rpx;
+  top: 13rpx;
+  height: 15rpx;
+  width: 15rpx;
+  border-radius: 36rpx;
 }
 
 .detail-header-box, .detail-footer-box {
@@ -29,8 +38,6 @@
   width: 660rpx;
   height: 100rpx;
   border-radius: 100rpx;
-  color: white;
-  background-color: #AB956D;
   align-items: center; 
   justify-content: center;
 }
@@ -80,6 +87,7 @@
 
 .disabled {
   color: #D5D5DB;
+  pointer-events: none;
 }
 
 .info-box {

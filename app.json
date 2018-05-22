@@ -1,40 +1,18 @@
 {
   "pages": [
     "page/index/index",
-    "page/product/product",    
+    "page/product/product",
     "page/cart/cart",
-    "page/ucenter/ucenter"
+    "page/category/category",
+    "page/order/order",
+    "page/ucenter/ucenter",
+    "page/ucenter/order-list/order-list"
   ],
 
   "window": {
-    "navigationBarBackgroundColor": "#ACA078",
+    "navigationBarBackgroundColor": "#FFC0CB",
     "navigationBarTextStyle": "white",
     "backgroundColor": "#eeeeee",
     "backgroundTextStyle": "light"
-  },
-
-  "tabBar": {
-    "borderStyle": "white",
-    "selectedColor": "#B4282D",
-    "list": [
-      {
-        "pagePath": "page/index/index",
-        "iconPath": "image/tabbar/ic_menu_choice_nor.png",
-        "selectedIconPath": "image/tabbar/ic_menu_choice_pressed.png",
-        "text": "首页"
-      },
-      {
-        "pagePath": "page/cart/cart",
-        "iconPath": "image/tabbar/ic_menu_shoping_nor.png",
-        "selectedIconPath": "image/tabbar/ic_menu_shoping_pressed.png",
-        "text": "购物车"
-      },
-      {
-        "pagePath": "page/ucenter/ucenter",
-        "iconPath": "image/tabbar/ic_menu_me_nor.png",
-        "selectedIconPath": "image/tabbar/ic_menu_me_pressed.png",
-        "text": "我的"
-      }
-    ]
   }
 }

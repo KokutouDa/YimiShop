@@ -1,4 +1,5 @@
 @import "../tpl/cart/cart-tpl.wxss";
+@import "../tpl/base.wxss";
 
 .cart-empty {
   display: flex;
@@ -24,12 +25,13 @@
   align-items: center;
   width: 200rpx;
   height: 50rpx;
-  border: thin solid #DD545E;
+  border: thin solid pink; 
 }
 
 .cart-tips-shopping {
   font-size: 25rpx;
-  color: #DD545E;
+  color: pink;
+  /* color: #DD545E; */
 }
 
 .cart-have-products {
@@ -37,19 +39,15 @@
 }
 
 .products-main-box {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  height: 91.5%;
+  overflow-x: hidden;
+  margin-bottom: 92rpx;
+  font-size: 28rpx;
 } 
 
-.products-footer-box {
-  display: flex;
+.products-footer {
   align-items: center;
   justify-content: space-between;
-  width: 100%;
-  height: 8%;
-  border-top: thin solid gray;
+  background-color: white;
 }
 
 .box-select, .box-ordering {
@@ -68,8 +66,6 @@
   display: flex;
   width: 200rpx;
   height: 100%;
-  background-color: rgba(171,149,109, 1);
-  color: white;
   align-items: center;
   justify-content: center;
 }
