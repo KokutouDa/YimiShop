@@ -63,11 +63,11 @@ Page({
           var categoryData = that.setAllCategoryNum(data, cartProducts);
           var cartNum = that.getCartNum(categoryData);
           that.setData({
-            "category": categoryData,
-            "currentID": categoryData[0].id,
             "cartProducts": cartProducts,
-            "minFee": minFee,
+            "category": categoryData,
             "cartNum": cartNum,
+            "currentID": categoryData[0].id,
+            "minFee": minFee,
             "productsPrice": cart.totalPrice(),
             "emptyCart": cart.isEmptyJson(cartProducts)
           });

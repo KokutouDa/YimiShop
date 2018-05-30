@@ -41,7 +41,7 @@
       <view class="footer-cart" bindtap='onCartTap'>
         <view class="footer-cart-view {{emptyCart?'disable':''}}">
           <image class="footer-cart-image" 
-          src='/image/icon/shopping-cart-3.png'></image>
+          src='/image/icon/index-cart.png'></image>
         </view>
         <view class="num {{cartNum>=1?'visible':''}}">{{cartNum}}</view> 
       </view>
