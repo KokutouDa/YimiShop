@@ -37,13 +37,17 @@ Page({
     if (!addressInfo) {
       this.onAddressTap();
     } else {
-      var freight = order.calFreight(addressInfo.provinceName);
-      var totalPrice = productsPrice + freight;
-      this.setData({
-        'addressInfo': addressInfo,
-        'freight': freight,
-        'totalPrice': totalPrice,
-      });
+      order.getFreight(addressInfo.provinceName, (delivery) => {
+        var freight = delivery.price;
+        var totalPrice = productsPrice + freight;
+        var deliveryDesc = delivery.desc;
+        this.setData({
+          'addressInfo': addressInfo,
+          'freight': freight,
+          'totalPrice': totalPrice,
+          'deliveryDesc': deliveryDesc
+        });
+      })
     }
   },
  

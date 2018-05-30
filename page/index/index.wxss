@@ -1,5 +1,6 @@
 @import "../tpl/product/product-tpl.wxss";
 @import "/page/tpl/cart/cart-tpl.wxss";
+@import "../tpl/base.wxss";
 
 .index-container {
   display: flex;
@@ -28,11 +29,28 @@
 
 .left-item {
   display: flex;
+  position: relative;
   justify-content: center;
   align-items: center;
-  height: 100rpx;
+  height: 120rpx;
   border-bottom: 1rpx solid #EDEDED;
   padding: 10rpx;
+}
+
+.num {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center; 
+  top: 0;
+  right: 0;
+  width: 30rpx;
+  height: 30rpx;
+  background-color: red;
+  color: white;
+  border-radius: 3em;
+  font-size: 23rpx;
+  visibility: hidden;
 }
 
 .right-item {
@@ -76,12 +94,12 @@
   height: 40rpx;
 }
 .qty-subtract {
-  visibility: hidden;
+   visibility: hidden;  
 }
 .qty-text {
   text-align: center;
   width: 70rpx;
-  visibility: hidden;
+  visibility: hidden;  
 }
 
 .visible {
@@ -92,4 +110,81 @@
   background-color: pink;
   color: white;
   font-weight: bolder;
+}
+
+.footer-box {
+  position: fixed;
+  display: flex;
+  bottom: 0;
+  width: 100%;
+  height: 92rpx;
+  border-top: thin solid #E5E5E5;
+}
+
+.empty {
+  text-align: center;
+  flex: 1;
+  margin-top: 100rpx;
+}
+
+.footer-box {
+  justify-content: space-between;
+}
+
+.footer-left {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  margin-left: 20rpx;
+}
+
+.footer-cart {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 130rpx;
+  height: 130rpx;
+  margin-bottom: 30rpx;
+  
+}
+
+.footer-cart-view {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 110rpx;
+  height: 110rpx;
+  background-color: rgba(255, 192, 203, 1);
+  border-radius: 80rpx;
+  border: 10rpx solid #f4f4f4;
+  box-shadow: 0rpx -3rpx 2rpx #DDDDDD;
+}
+
+.footer-cart-image {
+  width: 50rpx;
+  height: 50rpx;
+}
+
+.footer-cart-view.disable {
+  background-color: #DDDDDD;
+}
+
+.footer-price {
+  margin-left: 20rpx;
+}
+
+.footer-right {
+  display: flex;
+  width: 200rpx;
+  justify-content: center;
+  align-items: center; 
+}
+
+.footer-right.disable {
+  background-color: #DDDDDD;
+}
+
+.footer-right-hover {
+  background-color: rgba(255, 192, 203, 0.7);
 }

@@ -174,7 +174,7 @@
 
 .footer-total-price {
   padding-left: 20rpx;
-  color: #ACA078;
+  color: pink;
 }
 
 .footer-pay {

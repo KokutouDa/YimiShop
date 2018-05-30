@@ -3,7 +3,6 @@
     "page/index/index",
     "page/product/product",
     "page/cart/cart",
-    "page/category/category",
     "page/order/order",
     "page/ucenter/ucenter",
     "page/ucenter/order-list/order-list"

@@ -4,17 +4,18 @@ class Cart extends Base {
 
   constructor() {
     super();
-    this._storageKeyName = 'cart';
+    this._storageKey = 'cart';
     this.flatAdd = "add";
     this.flatSubtract = "subtract"
   }
   
   //获取购物车产品数据，flag为true时获取选中的产品
   getCartDataFromLocal(flag) {
-    var products = wx.getStorageSync(this._storageKeyName);
+    var products = wx.getStorageSync(this._storageKey);
     if (!products) {
-      products = [];
+      products = {};
     }
+    
     if (flag) {
       var selectedProducts = [];
       for (var i = 0; i < products.length; i++) {
@@ -28,42 +29,39 @@ class Cart extends Base {
   }
 
   setCartData(products) {
-    wx.setStorageSync(this._storageKeyName, products);
+    wx.setStorageSync(this._storageKey, products);
   }
 
   //添加到购物车
   add(product, qty) {
-    // var qty = arguments[1] ? arguments[1] : 1;
     var products = this.getCartDataFromLocal();
-    var index = this.hasArrItem(product.id, "id", products);
-    if (index == -1) {
+    var id = product.id;
+    
+    var isHas = this.haveJsonKey(products, product.id);
+    if (!isHas) {
       product.qty = qty;
       product.selectStatus = true;
-      products.push(product);
+      products[id] = product;
     } else {
-      products[index].qty += qty;
-      product.qty += qty;
+      if (!(products[id].qty <= 0 && qty < 0)) {
+        products[id].qty += qty;
+      }
+    }
+    if (products[id].qty == 0) {
+      delete products[id];
     }
     this.setCartData(products);
-    return product;
+    return products;
   }
 
-
-  /**
-   * 判断数组中是否含有指定value，返回value所在位置。不存在时返回-1
-   * value: {obj}查找值
-   * key: {string} 被查找数组下json值对应的key
-   * arr: {array}被查找数组
-   */
-  /**/
-  hasArrItem(value, key, arr) {
-    var index = -1;
-    arr.forEach(function (item, i) {
-      if (item[key] == value) {
-        index = i;
+  //查找value里是否有指定key
+  haveJsonKey(value, key) {
+    for (var i in value) {
+      if (key == i) {
+        return true;
       }
-    });
-    return index;
+    }
+    return false;
   }
 
   deleteById(ids) {
@@ -72,10 +70,8 @@ class Cart extends Base {
       ids = [ids];
     }
     for (let i = 0; i < ids.length; i++) {
-      var index = this.hasProduct(ids[i], cartProducts);
-      if (index != -1) {
-        cartProducts.splice(index, 1);
-      }
+      var id = ids[i];
+      delete cartProducts[id];
     }
     this.setCartData(cartProducts);
     return cartProducts;
@@ -85,15 +81,15 @@ class Cart extends Base {
    * 是否有指定 id 的 product
    * 返回的是数组当前product的位置，如果不存在，返回-1
    */
-  hasProduct(id, products) {
-    var index = -1;
-    for (let i = 0; i < products.length; i++) {
-      if (id == products[i].id) {
-        index = i;
-      }
-    }
-    return  index;
-  }
+  // hasProduct(id, products) {
+  //   var index = -1;
+  //   for (let i = 0; i < products.length; i++) {
+  //     if (id == products[i].id) {
+  //       index = i;
+  //     }
+  //   }
+  //   return  index;
+  // }
 
   itemSelect(index) {
     var products = this.getCartDataFromLocal();
@@ -104,17 +100,18 @@ class Cart extends Base {
 
   allSelected(isAllSelected) {
     var products = this.getCartDataFromLocal();
-    products.forEach(function (item) {
-      item.selectStatus = !isAllSelected;
-    });
+    for (var i in products) {
+      products[i].selectStatus = !isAllSelected;
+    }
     this.setCartData(products);
     return products;
   }
 
   hasOneSelected() {
     var products = this.getCartDataFromLocal();
-    for (var i = 0; i < products.length; i++) {
-      if (products[i].selectStatus == true) {
+    for (var i in products) {
+      var product = products[i];
+      if (product.selectStatus == true) {
         return true;
       }
     }
@@ -123,17 +120,19 @@ class Cart extends Base {
 
   isAllSelected() {
     var products = this.getCartDataFromLocal();
-    var isAllSelected = true;
-    products.forEach(function (item) {
-      if(!item.selectStatus) {
-        isAllSelected = false;
+    for (var i in products) {
+      var product = products[i];
+      if (!product.selectStatus) {
+        return false;
       }
-    });
-    return isAllSelected;
+    }
+    return true;
   }
 
+  //购物车内修改数量
   changeQty(index, type) {
     var products = this.getCartDataFromLocal();
+    console.log(index);
     if (type == this.flatAdd) {
       if (products[index].qty < products[index].stock) {
         products[index].qty++;
@@ -150,12 +149,20 @@ class Cart extends Base {
   totalPrice() {
     var products = this.getCartDataFromLocal();
     var totalPrice = 0;
-    products.forEach(function (item) {
-      if (item.selectStatus) {
-        totalPrice += item.price * 100 * item.qty;
+    for (var i in products) {
+      var product = products[i];
+      if (product.selectStatus) {
+        totalPrice += product.price * 100 * product.qty;
       }
-    });
+    }
     return totalPrice / 100;
+  }
+
+  isEmptyJson(json) {
+    for (var i in json) {
+      return false;
+    }
+    return true;
   }
 }
 

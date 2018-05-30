@@ -1,19 +1,19 @@
-import {Base} from '../../utils/base.js'
+import { Base } from '../../utils/base.js'
 
 
-class Index extends Base{
+class Index extends Base {
   constructor() {
     super();
   }
 
-  getCategory(callback) {
+  getShopInfo(id, callback) {
     var params = {
-      url: "category",
+      url: 'shopinfo/' + id,
       sCallback(data) {
         callback && callback(data);
       }
     }
-    this.request(params)
+    this.request(params);
   }
 
   getProductsByCategory(id, callback) {
@@ -24,6 +24,22 @@ class Index extends Base{
       }
     }
     this.request(params);
+  }
+
+  /**
+   * 判断数组中是否含有指定value，返回value所在位置。不存在时返回-1
+   * value: {obj}查找值
+   * key: {string} 被查找数组下json值对应的key
+   * arr: {array}被查找数组
+   */
+  hasArrayAttr(value, key, arr) {
+    var index = -1;
+    arr.forEach(function (item, i) {
+      if (item[key] == value) {
+        index = i;
+      }
+    });
+    return index;
   }
 
   // /**
@@ -55,4 +71,4 @@ class Index extends Base{
   // }
 }
 
-export {Index};
+export { Index };

@@ -57,7 +57,7 @@
       <view>
         <view>
           <view>配送方式：</view>
-          <text>顺丰</text>
+          <text>{{deliveryDesc}}</text>
         </view>
       </view>
 

@@ -1,8 +1,12 @@
 import { Base } from "../../utils/base.js";
+import { Category } from "../../utils/category.js";
+
+var category = new Category();
 
 class Order extends Base {
   constructor() {
     super();
+    this._freightKeyName = "freight";
     this._storageName = "newOrder";
     this._orderStatusArr = ["", "待支付", "待发货", "待收货", "已完成", "已取消"];
     this._footerStatus = {
@@ -15,15 +19,34 @@ class Order extends Base {
     this._paySuccess = 2;
   }
 
-  //计算运费
-  calFreight(provinceName) {
+  getFreight(provinceName, callback) {
+    var type = category.getStorage();
+    var method = "";
+    if (type == category._typeTakeOut) {
+      method = category._takeOut;
+    } else {
+      if (this.isNear(provinceName)) {
+        method = category._deliveryNear;
+      } else {
+        method = category._deliveryFar;
+      }
+    }
+    var params = {
+      url: "delivery/" + method,
+      sCallback(data) {
+        callback && callback(data);
+      }
+    }
+    this.request(params);
+  }
+
+  isNear(provinceName) {
     var reg = provinceName.match(/(江苏|上海|浙江)*/);
     if (reg[0] != "") {
-      var freight = 12;
+      return true;
     } else {
-      var freight = 23;
+      return false;
     }
-    return freight;
   }
 
   //生成订单

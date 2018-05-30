@@ -6,7 +6,7 @@ var order = new Order();
 Page({
 
   data: {
-    cartProducts: [],
+    cartProducts: {},
     isAllSelected: false,
     hasOneSelected: true,
     totalPrice: 0,
@@ -40,8 +40,8 @@ Page({
 
   onDeleteTap: function (event) {
     var index = cart.getDataSet(event, "index");
-    var id = this.data.cartProducts[index].id;
-    var cartProducts = cart.deleteById(id);
+    var cartProducts = cart.deleteById(index);
+    console.log(cartProducts);
     this._resetData(cartProducts);
   },
 
@@ -68,9 +68,11 @@ Page({
   },
 
   onOrderingTap: function(event) {
-    wx.navigateTo({
-      url: "../order/order?totalPrice=" + this.data.totalPrice + "&from=cart",
-    })
+    if (this.data.hasOneSelected) {
+      wx.navigateTo({
+        url: "../order/order?totalPrice=" + this.data.totalPrice + "&from=cart",
+      })
+    }
   },
 
   _resetData: function(cartProducts) {
