@@ -158,7 +158,14 @@ class Cart extends Base {
     return totalPrice / 100;
   }
 
+  isEmpty() {
+    var products = this.getCartDataFromLocal();
+    return this.isEmptyJson(products);
+  }
+
+  //todo old delete
   isEmptyJson(json) {
+    var products = this.getCartDataFromLocal();
     for (var i in json) {
       return false;
     }

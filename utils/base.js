@@ -53,6 +53,13 @@ class Base {
     var data = event.currentTarget.dataset[key];
     return data;
   }
+
+  isEmptyJson(json) {
+    for (var i in json) {
+      return false;
+    }
+    return true;
+  }
 }
 
 export { Base };

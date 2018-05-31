@@ -28,17 +28,11 @@ Page({
   },
 
   onShow: function (options) {
-    var cartProducts = cart.getCartDataFromLocal(false);
-    if (JSON.stringify(this.data.cartProducts) != JSON.stringify(cartProducts)) {
-      var categoryData = this.setAllCategoryNum(this.data.category, cartProducts);
-      var cartNum = this.getCartNum(categoryData);
-      console.log(cartProducts);
-      // console.log(cartNum);
-      this.setData({
-        "cartProducts": cartProducts,
-        "category": categoryData,
-        "cartNum": cartNum
-      })
+    if (this.data.cartProducts) {
+      var cartProducts = cart.getCartDataFromLocal(false);
+      if (JSON.stringify(this.data.cartProducts) != JSON.stringify(cartProducts)) {
+        this.initData(this.data.category, cartProducts);
+      }
     }
   },
 
@@ -60,19 +54,13 @@ Page({
 
         category.getByType(type, (data) => {
           var cartProducts = cart.getCartDataFromLocal(false);
-          var categoryData = that.setAllCategoryNum(data, cartProducts);
-          var cartNum = that.getCartNum(categoryData);
+          that.initData(data, cartProducts);
           that.setData({
-            "cartProducts": cartProducts,
-            "category": categoryData,
-            "cartNum": cartNum,
-            "currentID": categoryData[0].id,
+            "currentID": this.data.category[0].id,
             "minFee": minFee,
-            "productsPrice": cart.totalPrice(),
-            "emptyCart": cart.isEmptyJson(cartProducts)
           });
 
-          index.getProductsByCategory(categoryData[0].id, (data) => {
+          index.getProductsByCategory(this.data.category[0].id, (data) => {
             that.setData({
               "products": data
             })
@@ -110,13 +98,12 @@ Page({
     var category = this.setCategoryNum(this.data.currentID,
       this.data.category, num);
     var cartNum = this.data.cartNum + num;
-    console.log(cartProducts);
     this.setData({
       "cartProducts": cartProducts,
       "category": category,
       "productsPrice": cart.totalPrice(),
       "cartNum": cartNum,
-      "emptyCart": cart.isEmptyJson(cartProducts)
+      "emptyCart": cart.isEmpty()
     })
   },
 
@@ -126,6 +113,19 @@ Page({
         url: '../cart/cart',
       })
     }
+  },
+  
+  //初始化分类和购物车显示的数量
+  initData: function (categoryData, cartProducts) {
+    categoryData = this.setAllCategoryNum(categoryData, cartProducts);
+    var cartNum = this.getCartNum(categoryData);
+    this.setData({
+      "cartProducts": cartProducts,
+      "category": categoryData,
+      "cartNum": cartNum,
+      "productsPrice": cart.totalPrice(),
+      "emptyCart": cart.isEmpty(),
+    })
   },
 
   /**
@@ -140,7 +140,25 @@ Page({
       var categoryID = cartProducts[i].category_id;
       category = this.setCategoryNum(categoryID, category, cartProducts[i].qty);
     }
-    console.log(category);
+    // console.log("category");
+    // console.log(category);
+    return category;
+  },
+
+ /**
+  * num: int 添加的数量
+ **/
+  setCategoryNum: function (categoryID, category, num) {
+    
+    var categoryIndex = index.hasArrayAttr(categoryID,
+      'id', category);
+    if (index != -1) {
+      if (!category[categoryIndex].qty) {
+        category[categoryIndex].qty = num;
+      } else {
+        category[categoryIndex].qty += num;
+      }
+    }
     return category;
   },
 
@@ -154,44 +172,4 @@ Page({
     }
     return num;
   },
-
-  /**
-   * num: int 添加的数量
-   */
-  setCategoryNum: function (categoryID, category, num) {
-    var categoryIndex = index.hasArrayAttr(categoryID,
-      'id', category);
-    if (index != -1) {
-      if (!category[categoryIndex].qty) {
-        category[categoryIndex].qty = num;
-      } else {
-        category[categoryIndex].qty += num;
-      }
-    }
-    return category;
-  }
-
-
-  //   onProductTap: function(event) {
-  //     var id = index.getDataSet(event, "id");
-  //     wx.navigateTo({
-  //       url: '../product/product?id=' + id,
-  //     })
-  //   },
-
-  //   _loadData: function() {
-  //     index.getBannerData(1, (data) => {
-  //       console.log(data);
-  //       this.setData({
-  //         "bannerArray": data
-  //       });
-  //     });
-
-  //     index.getRecentProducts((data) => {
-  //       this.setData({
-  //         "products": data
-  //       });
-  //       console.log(data);
-  //     });
-  //   },
 });
