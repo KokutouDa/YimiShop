@@ -55,12 +55,13 @@ Page({
         category.getByType(type, (data) => {
           var cartProducts = cart.getCartDataFromLocal(false);
           that.initData(data, cartProducts);
+          var currentID = this.data.category[0].id; 
           that.setData({
-            "currentID": this.data.category[0].id,
+            "currentID": currentID,
             "minFee": minFee,
           });
 
-          index.getProductsByCategory(this.data.category[0].id, (data) => {
+          index.getProductsByCategory(currentID, (data) => {
             that.setData({
               "products": data
             })
@@ -101,7 +102,7 @@ Page({
     this.setData({
       "cartProducts": cartProducts,
       "category": category,
-      "productsPrice": cart.totalPrice(),
+      "productsPrice": cart.productsPrice(),
       "cartNum": cartNum,
       "emptyCart": cart.isEmpty()
     })
@@ -123,7 +124,7 @@ Page({
       "cartProducts": cartProducts,
       "category": categoryData,
       "cartNum": cartNum,
-      "productsPrice": cart.totalPrice(),
+      "productsPrice": cart.productsPrice(),
       "emptyCart": cart.isEmpty(),
     })
   },

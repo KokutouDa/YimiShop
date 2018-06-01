@@ -9,7 +9,7 @@ Page({
     cartProducts: {},
     isAllSelected: false,
     hasOneSelected: true,
-    totalPrice: 0,
+    productsPrice: 0,
   },
 
   onLoad: function (options) {
@@ -33,9 +33,7 @@ Page({
 
   onProductTap: function (event) {
     var id = cart.getDataSet(event, "id");
-    wx.navigateTo({
-      url: '../product/product?id=' + id,
-    })
+    //todo
   },
 
   onDeleteTap: function (event) {
@@ -51,7 +49,7 @@ Page({
     var cartProducts = cart.changeQty(index, type);
     this.setData({
       "cartProducts": cartProducts,
-      "totalPrice": cart.totalPrice(),
+      "productsPrice": cart.productsPrice(),
     });
 
   },
@@ -70,7 +68,7 @@ Page({
   onOrderingTap: function(event) {
     if (this.data.hasOneSelected) {
       wx.navigateTo({
-        url: "../order/order?totalPrice=" + this.data.totalPrice + "&from=cart",
+        url: "../order/order?productsPrice=" + this.data.productsPrice + "&from=cart",
       })
     }
   },
@@ -80,7 +78,7 @@ Page({
       "cartProducts": cartProducts,
       "isAllSelected": cart.isAllSelected(cartProducts),
       "hasOneSelected": cart.hasOneSelected(cartProducts),
-      "totalPrice": cart.totalPrice(cartProducts)
+      "productsPrice": cart.productsPrice(cartProducts)
     })
   },
 });

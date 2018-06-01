@@ -21,7 +21,7 @@
         <text>全选</text>
       </view>
       <view class="box-ordering">
-        <view class="price">¥{{totalPrice}}</view>
+        <view class="price">¥{{productsPrice}}</view>
         <view class="ordering main-background-color {{hasOneSelected?'':'disabled'}}" 
         hover-class="{{hasOneSelected?'ordering-hover':''}}"
         bindtap="onOrderingTap">

@@ -8,7 +8,6 @@ var address = new Address();
 Page({
   data: {
     orderProducts: [],
-    freight: 23,
     orderStatus: 0,
     orderStatusArr: order._orderStatusArr,
     footerStatus: order._footerStatus,
@@ -16,7 +15,7 @@ Page({
 
   onLoad: function (option) {
     if (option.from == "cart") {
-      this._fromCart(option.totalPrice);
+      this._fromCart(option.productsPrice);
     }
     else {
       this._fromOrder(option.orderID);
@@ -24,9 +23,9 @@ Page({
     }
   },
 
-  _fromCart: function (totalPrice) {
+  _fromCart: function (productsPrice) {
     var orderProducts = cart.getCartDataFromLocal(true);
-    var productsPrice = parseFloat(totalPrice);
+    var productsPrice = parseFloat(productsPrice);
 
     this.setData({
       'orderProducts': orderProducts,

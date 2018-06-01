@@ -146,16 +146,16 @@ class Cart extends Base {
     return products;
   }
 
-  totalPrice() {
+  productsPrice() {
     var products = this.getCartDataFromLocal();
-    var totalPrice = 0;
+    var productsPrice = 0;
     for (var i in products) {
       var product = products[i];
       if (product.selectStatus) {
-        totalPrice += product.price * 100 * product.qty;
+        productsPrice += product.price * 100 * product.qty;
       }
     }
-    return totalPrice / 100;
+    return productsPrice / 100;
   }
 
   isEmpty() {

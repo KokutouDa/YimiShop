@@ -48,7 +48,7 @@
       
        <view class="footer-price">¥{{productsPrice}}</view>
     </view>
-    <view class="footer-right main-background-color {{emptyCart?'disable':''}}"
+    <view class="footer-right main-background-color {{productsPrice>0?'':'disable'}}"
       hover-class="footer-right-hover">¥{{minFee}}起送</view>
   </view>
 </view>
