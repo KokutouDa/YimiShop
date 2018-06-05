@@ -18,9 +18,9 @@ class Cart extends Base {
     
     if (flag) {
       var selectedProducts = [];
-      for (var i = 0; i < products.length; i++) {
+      for (var i in products) {
         if (products[i].selectStatus) {
-          selectedProducts.push(products[i]);
+          selectedProducts.push(products[i])
         }
       }
       products = selectedProducts;
@@ -76,20 +76,6 @@ class Cart extends Base {
     this.setCartData(cartProducts);
     return cartProducts;
   }
-
-  /**
-   * 是否有指定 id 的 product
-   * 返回的是数组当前product的位置，如果不存在，返回-1
-   */
-  // hasProduct(id, products) {
-  //   var index = -1;
-  //   for (let i = 0; i < products.length; i++) {
-  //     if (id == products[i].id) {
-  //       index = i;
-  //     }
-  //   }
-  //   return  index;
-  // }
 
   itemSelect(index) {
     var products = this.getCartDataFromLocal();

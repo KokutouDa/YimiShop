@@ -30,6 +30,22 @@ class Location extends Base {
         var distance = that.calDistance(la1, lo1, la2, lo2);
         callback && callback(distance);
       },
+      fail: function(res) {
+        wx.getSetting({
+          success: (res) => {
+            wx.showToast({
+              title: '当前权限已拒绝，需要手动授权',
+              icon: 'none'
+            })
+          },
+          fail: (res) => {
+            wx.showToast({
+              title: '当前网络不可用，请稍后再试',
+              icon: 'none'
+            })
+          }
+        })
+      }
     })
   }
 

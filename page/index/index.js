@@ -3,12 +3,14 @@ import { Cart } from '../cart/cart-model.js';
 import { Location } from '../../utils/location.js';
 import { Category } from '../../utils/category.js';
 import { Order } from '../order/order-model.js';
+import { Ucenter } from '../ucenter/ucenter-model.js'
 
 var index = new Index();
 var cart = new Cart();
 var location = new Location();
 var category = new Category();
 var order = new Order();
+var ucenter = new Ucenter();
 
 Page({
 
@@ -114,6 +116,24 @@ Page({
         url: '../cart/cart',
       })
     }
+  },
+
+  onOrderingTap: function (event) {
+    var productsPrice = this.data.productsPrice;
+    if (productsPrice >= this.data.minFee) {
+      //todo
+    }
+    if (productsPrice > 0) {
+      wx.navigateTo({
+        url: "../order/order?productsPrice=" + productsPrice + "&from=cart",
+      })
+    }
+  },
+
+  onOrderListTap: function (event) {
+    wx.navigateTo({
+      url: '../ucenter/order-list/order-list',
+    })
   },
   
   //初始化分类和购物车显示的数量

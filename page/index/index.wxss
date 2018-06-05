@@ -4,19 +4,34 @@
 
 .index-container {
   display: flex;
-  flex-direction: row;
   height: 100%;
 }
 
-.left-box {
+.header-box {
+  background-color: white;
+  border-bottom: 1rpx solid #EDEDED;
+}
+
+.header-img {
+  width: 90rpx;
+  height: 90rpx;
+}
+
+.main-box {
+  display: flex;
+  flex: 1;
+}
+
+.main-left-box {
   text-align: center;
   width: 150rpx;
   background-color: #f5f5f5;
   overflow: auto;
-  margin-bottom: 92rpx;
+  margin: 92rpx 0;
+  /* margin-bottom: 92rpx; */
 }
 
-.right-box {
+.main-right-box {
   background-color: white;
   overflow-x: hidden; 
   flex: 1;
@@ -25,6 +40,25 @@
 
 .left-box::-webkit-scrollbar, .right-box::-webkit-scrollbar {
   display: none;
+}
+
+.left-ucenter {
+  position: fixed;
+  top: 0;
+  right: 0p;
+  display: flex;
+  justify-content: center;  
+  align-items: center;
+  height: 92rpx;
+  width: 150rpx;   
+  background-color: white;
+  border-bottom: 1rpx solid #EDEDED;
+}
+
+.left-ucenter-img {
+  width: 30rpx;
+  height: 30rpx;
+  margin-right: 10rpx;
 }
 
 .left-item {

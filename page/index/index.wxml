@@ -2,53 +2,57 @@
 
 <view class=" container index-container">
 
-
-  <view class="left-box">
-    <block wx:for="{{category}}">
-      <view class="left-item {{currentID==item.id?'selected':''}}" data-id="{{item.id}}" bindtap='onCategoryTap'>
-        {{item.name}}
-        <view class="num {{item.qty>0?'visible':''}}">{{item.qty}}</view>
+  <view class="main-box">
+    <view class="main-left-box">
+      <view class="left-ucenter" bindtap='onOrderListTap'>
+        <image class="left-ucenter-img" src='/image/order.png'></image>
+        <view>订单</view>
       </view>
-    </block>
-  </view>
+      <block wx:for="{{category}}">
+        <view class="left-item {{currentID==item.id?'selected':''}}" data-id="{{item.id}}" bindtap='onCategoryTap'>
+          {{item.name}}
+          <view class="num {{item.qty>0?'visible':''}}">{{item.qty}}</view>
+        </view>
+      </block>
+    </view>
 
-
-  <view class="right-box">
-    <view class="empty" wx:if="{{products.length==0}}">暂无物品</view>
-    <block wx:else>
-      <block wx:for="{{products}}">
-        <view class="right-item">
-          <image class="right-item-img" src="{{item.img_url}}"></image>
-          <view class="right-item-info">
-            <view>{{item.name}}</view>
-            <view class="right-item-bottom">
-              <view>{{item.price}}</view>
-              <view class="bottom-qty-box">
-                <image class="qty-subtract {{cartProducts[item.id].qty>0?'visible':''}}" src="/image/icon/cut.png" data-type='subtract' data-index='{{index}}' bindtap="onChangeQtyTap"></image>
-                <view class="qty-text {{cartProducts[item.id].qty>0?'visible':''}}">
-                  {{cartProducts[item.id].qty}}</view>
-                <image class="qty-add" src="/image/icon/add.png" data-type='add' data-index='{{index}}' bindtap="onChangeQtyTap"></image>
+    <view class="main-right-box">
+      <view class="empty" wx:if="{{products.length==0}}">暂无物品</view>
+      <block wx:else>
+        <block wx:for="{{products}}">
+          <view class="right-item">
+            <image class="right-item-img" src="{{item.img_url}}"></image>
+            <view class="right-item-info">
+              <view>{{item.name}}</view>
+              <view class="right-item-bottom">
+                <view>{{item.price}}</view>
+                <view class="bottom-qty-box">
+                  <image class="qty-subtract {{cartProducts[item.id].qty>0?'visible':''}}" src="/image/icon/cut.png" data-type='subtract' data-index='{{index}}' bindtap="onChangeQtyTap"></image>
+                  <view class="qty-text {{cartProducts[item.id].qty>0?'visible':''}}">
+                    {{cartProducts[item.id].qty}}</view>
+                  <image class="qty-add" src="/image/icon/add.png" data-type='add' data-index='{{index}}' bindtap="onChangeQtyTap"></image>
+                </view>
               </view>
             </view>
           </view>
-        </view>
+        </block>
       </block>
-    </block>
+    </view>
   </view>
+
+
 
   <view class="base-footer-box footer-box">
     <view class="footer-left">
       <view class="footer-cart" bindtap='onCartTap'>
         <view class="footer-cart-view {{emptyCart?'disable':''}}">
-          <image class="footer-cart-image" 
-          src='/image/icon/index-cart.png'></image>
+          <image class="footer-cart-image" src='/image/icon/index-cart.png'></image>
         </view>
-        <view class="num {{cartNum>=1?'visible':''}}">{{cartNum}}</view> 
+        <view class="num {{cartNum>=1?'visible':''}}">{{cartNum}}</view>
       </view>
-      
-       <view class="footer-price">¥{{productsPrice}}</view>
+
+      <view class="footer-price">¥{{productsPrice}}</view>
     </view>
-    <view class="footer-right main-background-color {{productsPrice>0?'':'disable'}}"
-      hover-class="footer-right-hover">¥{{minFee}}起送</view>
+    <view bindtap="onOrderingTap" class="footer-right main-background-color {{productsPrice>0?'':'disable'}}" hover-class="footer-right-hover">¥{{minFee}}起送</view>
   </view>
 </view>
