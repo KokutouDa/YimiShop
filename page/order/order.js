@@ -50,6 +50,7 @@ Page({
       console.log(data);
       var freight = data.freight_fee;
       var totalPrice = parseFloat(data.total_price) + freight;
+
       that.setData({
         "orderNum": data.order_num,
         "addressInfo": data.snap_address,
@@ -59,6 +60,7 @@ Page({
         "orderingTime": order.getStringTime(data.create_time),
         "freight": freight,
         "message": data.message,
+        'deliveryDesc': data.delivery_desc,
         "totalPrice": totalPrice,
       });
     });
@@ -83,11 +85,19 @@ Page({
     }
   },
 
-  //todo 试试setStorageSync false时的会加载数据
   firstPay: function () {
     var that = this;
-    order.generateOrder(this.data.orderProducts, this.data.addressInfo,
-                        this.data.freight, this.data.message, (data) => {
+    var orderInfo = {};
+    orderInfo['snapAddress'] = JSON.stringify(this.data.addressInfo);
+    orderInfo['freight'] = this.data.freight;
+    if (!this.data.message) {
+      orderInfo['message'] = "";
+    } else {
+      orderInfo['message'] = this.data.message;
+    }
+    orderInfo['deliveryDesc'] = this.data.deliveryDesc;
+    
+    order.generateOrder(this.data.orderProducts, orderInfo, (data) => {
       console.log(data);
       if (data.pass) {
         var orderID = data.order_id;
@@ -162,7 +172,6 @@ Page({
   setByAddress: function (addressInfo) {
     order.getFreight(addressInfo.provinceName, (delivery) => {
       var freight = delivery.price;
-      console.log(this.data.productsPrice);
       var totalPrice = this.data.productsPrice + freight;
       var deliveryDesc = delivery.desc;
       this.setData({

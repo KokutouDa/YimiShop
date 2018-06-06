@@ -51,30 +51,22 @@ class Order extends Base {
 
   //生成订单
   /**
-   * products: 购买的相关产品
-   * address: 用户的地址
-   * freight: 运费
-   * message: 用户的留言
+   * products: array 购买的相关产品
+   * orderInfo :JSON obj  订单的其它信息
    */
-  generateOrder(products, address, freight, message, callback) {
+  generateOrder(oProducts, orderInfo, callback) {
     var that = this;
-    if (!message) {
-      message = "";
-    }
     var params = {
       url: "order",
       type: "POST",
       data: {
-        "products": that.encoderProducts(products),
-        "snapAddress": JSON.stringify(address),
-        "freight": freight,
-        "message": message,
+        "products": that.encoderProducts(oProducts),
+        "orderInfo": JSON.stringify(orderInfo),
       },
       sCallback(data) {
         callback && callback(data);
       }
     }
-    console.log(address);
     this.request(params);
   }
 
