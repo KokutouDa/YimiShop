@@ -36,29 +36,19 @@ Page({
     if (!addressInfo) {
       this.onAddressTap();
     } else {
-      order.getFreight(addressInfo.provinceName, (delivery) => {
-        var freight = delivery.price;
-        var totalPrice = productsPrice + freight;
-        var deliveryDesc = delivery.desc;
-        this.setData({
-          'addressInfo': addressInfo,
-          'freight': freight,
-          'totalPrice': totalPrice,
-          'deliveryDesc': deliveryDesc
-        });
-      })
+      this.setByAddress(addressInfo);
     }
   },
- 
+
   /**
    * todo clien server不一样的值有
    * product_id=>id
    */
-  _fromOrder: function(orderID) {
+  _fromOrder: function (orderID) {
     var that = this;
     order.getOrderByID(orderID, (data) => {
       console.log(data);
-      var freight = data.snap_address.freight;
+      var freight = data.freight_fee;
       var totalPrice = parseFloat(data.total_price) + freight;
       that.setData({
         "orderNum": data.order_num,
@@ -67,10 +57,10 @@ Page({
         "productsPrice": data.total_price,
         "orderStatus": data.status,
         "orderingTime": order.getStringTime(data.create_time),
-        "freight": data.snap_address.freight,
+        "freight": freight,
+        "message": data.message,
         "totalPrice": totalPrice,
       });
-
     });
   },
 
@@ -78,15 +68,8 @@ Page({
     var that = this;
     wx.chooseAddress({
       success: function (res) {
-        console.log(res);
-        var freight = order.calFreight(res.provinceName);
         var addressInfo = address.setAddress(res);
-        addressInfo.freight = freight;
-        that.setData({
-          "addressInfo": addressInfo,
-          "freight": freight,
-          "totalPrice": freight + that.data.productsPrice
-        });
+        that.setByAddress(addressInfo);
         wx.setStorageSync("addressInfo", addressInfo);
       }
     })
@@ -103,7 +86,8 @@ Page({
   //todo 试试setStorageSync false时的会加载数据
   firstPay: function () {
     var that = this;
-    order.generateOrder(this.data.orderProducts, this.data.addressInfo, (data) => {
+    order.generateOrder(this.data.orderProducts, this.data.addressInfo,
+                        this.data.freight, this.data.message, (data) => {
       console.log(data);
       if (data.pass) {
         var orderID = data.order_id;
@@ -115,7 +99,7 @@ Page({
   },
 
   oneMorePay: function () {
-    order.execPay(this.data.orderID, (statusCode)=> {
+    order.execPay(this.data.orderID, (statusCode) => {
       console.log(statusCode);
       if (statusCode == order._paySuccess) {
         this.setData({
@@ -125,13 +109,13 @@ Page({
     });
   },
 
-  _orderFailed: function(data) {
+  _orderFailed: function (data) {
     var products = data.productsStatus;
-    var productsName= "";
+    var productsName = "";
     for (let i = 0; i < products.length; i++) {
       if (!products[i].haveStock) {
         productsName += products[i].name;
-        if (products.length -1 != i) {
+        if (products.length - 1 != i) {
           productsName += ", ";
         }
       }
@@ -145,7 +129,7 @@ Page({
   },
 
   //todo 支付成功之后服务端没有更新orderStatus，需要尝试自己解决。wxNotify
-  execPay: function(orderID) {
+  execPay: function (orderID) {
     var that = this;
     order.execPay(orderID, (statusCode) => {
       if (statusCode != order._payNoStock) {
@@ -172,5 +156,21 @@ Page({
       ids.push(orderProducts[i].id);
     }
     cart.deleteById(ids)
-  }
+  },
+
+  //通过地址信息更新相关数据
+  setByAddress: function (addressInfo) {
+    order.getFreight(addressInfo.provinceName, (delivery) => {
+      var freight = delivery.price;
+      console.log(this.data.productsPrice);
+      var totalPrice = this.data.productsPrice + freight;
+      var deliveryDesc = delivery.desc;
+      this.setData({
+        'addressInfo': addressInfo,
+        'freight': freight,
+        'totalPrice': totalPrice,
+        'deliveryDesc': deliveryDesc
+      });
+    })
+  },
 });

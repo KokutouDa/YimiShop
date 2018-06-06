@@ -161,8 +161,6 @@ Page({
       var categoryID = cartProducts[i].category_id;
       category = this.setCategoryNum(categoryID, category, cartProducts[i].qty);
     }
-    // console.log("category");
-    // console.log(category);
     return category;
   },
 
